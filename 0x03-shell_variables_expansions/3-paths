@@ -1,1 +1,1 @@
-echo $((~echo $PATH | grep -o ":/" |wC -l + 1))
+echo $((` echo $PATH | grep -o ":/" |wC -l + 1))
