@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Ensure script exits on any error
+set -e
+
+# Update package list and install nginx if not already installed
+sudo apt-get update -y
+sudo apt-get install -y nginx
+
+# Create a backup of the default nginx configuration
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+# Configure nginx to include the 301 redirection
+sudo sed -i '/server_name _;/a \ \n    location /redirect_me {\n        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n    }' /etc/nginx/sites-available/default
+
+# Restart nginx to apply changes
+sudo service nginx restart
+
+# Confirmation message
+echo "Nginx configured for redirection. You can test it by accessing /redirect_me."

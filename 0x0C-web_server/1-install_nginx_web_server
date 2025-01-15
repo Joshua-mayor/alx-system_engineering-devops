@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Update package lists
+apt-get update -y
+
+# Install nginx
+apt-get install nginx -y
+
+# Create a custom HTML page
+echo "Hello World!" > /var/www/html/index.html
+
+# Start nginx without using systemctl
+service nginx start
+
+# Ensure nginx is listening on port 80
+sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
+
+# Reload nginx to apply changes
+service nginx reload
+
+# Check if nginx is running and listening on port 80
+if curl -s http://localhost | grep -q "Hello World!"; then
+  echo "Nginx is successfully installed and configured."
+else
+  echo "Nginx configuration failed."
+  exit 1
+fi
